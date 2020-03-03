@@ -1,6 +1,6 @@
 # Replay
 
-## Javascript
+1. [Javascript]("https://github.com/JuneJH/Replay/tree/master/Javascript")
 
 ## Es6
 
