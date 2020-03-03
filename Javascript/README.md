@@ -31,11 +31,96 @@
     总之灵活使用闭包，会让代码看起来比较巧妙，但是闭包会造成内存泄漏，在垃圾回收时，得不到释放。
 
 9. 原型和原型链
-    - 原型是绝大部分函数都具有的一个属性，箭头函数没有原型，它是由该构造函数所生成的对象的公共集合
+    - 原型是绝大部分函数都具有的一个属性，箭头函数没有原型，它是由该构造函数所生成的对象的一个公共集合。函数可以通过proptype属性访问到，在原型中有两个系统属性__proto__指向原型，constructor指向该构造函数。构造出来得对象可以通过__proto__访问到原型，但是比较坑的是，该对象并没有__proto__属性，原型中虽然有该属性，但是原型中的是指向原型的原型，并不是指向该对象的原型，因此这儿更像一个getter，我理解为当对象在访问__proto__属性时，它实际上是在调用Object.getProptypeOf();通过api获取到原型。其次就是在访问constructor时它访问的是原型中。既然可以通过__proto__形成原型链，那么就可以利用它让对象实现继承，一般我在对私有属性进行继承的时候通常是使用借用父构造函数，在继承原型时通常采用一种圣杯模式。另外在ES6中提供一个关键字extend实现继承。
+    ```javascript
+    // 封装一个继承原型的方法
+      const inherit = (function () {
+          // 为了更严谨
+            const F = function () {};
+            return function (orign, target) {
+                F.prototype = orign.prototype;
+                target.prototype = new F();
+                // 修改constructor指向
+                target.prototype.constructor = target;
+            }
+        })()
+        //继承私有属性，直接使用改变this的call，apply即可
+    ```
+
 10. prototype与__proto__的关系与区别
+    - prototype是函数的属性，他指向原型，__proto__是对象的属性，访问它能够得到原型，与prototype指向同一个对象。
+
 11. 继承的实现方式及比较
+    - 借代继承私有属性，通过改变this指向去调用父构造函数
+    - 圣杯模式继承原型
+
 12. 深拷贝与浅拷贝
+    - 浅拷贝可以通过扩展运算符(...),Object.assign(),数组可用一些截取的方法
+    - JSON.stringify(),但是不适用具有undefined，以及代理对象等等
+    - 封装一个，我主要写做一个三段式，好理解
+    ```javascript
+    // 克隆数组和克隆对象变更以下循环方式即可实现想要的克隆，比如clone一个Symbol属性就可以使用Object.getPropertySymbol()。同理利用即可。
+    function clone(obj){
+        if(obj instanceof Array){
+            return cloneArr(obj);
+        }else if(obj instanceof Object){
+            return cloneObj(obj);
+        }else{
+            return obj;
+        }
+    }
+    function cloneArr(obj){
+        const reuslt = [];
+        obj.forEach(ele=>{
+            if(ele instanceof Object){
+                result.push(clone(ele))
+            }else{
+                result.push(ele)
+            }
+        })
+        return result;
+     }
+     function cloneObj(obj){
+         const result = {};
+         Object.getOwnPropertyName(obj).forEach(ele=>{
+             if(obj[ele] instanceof Object){
+                 result[ele] = clone(obj[ele])
+             }else{
+                 result[ele] = obj[ele]
+             }
+         })
+         return result;
+     }
+     ```
+
 13. 防抖和节流
+    **个人认为区别防抖和节流的关键在于执行时机，防抖是在最后一次触发执行，而节流是在触发的第一时间就执行，然后再该时间段不在执行**
+    - 防抖，主要是解决用户多次触发同一个事件而带来的后果，比如搜索框，当用户输入完成后，自动完成请求获取到资源渲染到页面。因此防抖主要是防止用户多次触发事件而引发副作用。
+    - 节流，主要防止用户一个时间段内多次触发，比如一个抢购按钮，如果不加以限制，用户可以疯狂点击，甚至用脚本再一瞬间点击不可数的次数。因此节流就是控制用户只能再一个时间段内触发一次，过了这个时间段才能再触发
+
+    封装一个防抖和节流，以及防抖节流结合
+    ```javascript
+    function debounce(handle,delay){
+        let timer = null;
+        return function (...args){
+            clearTimeOut(timer)
+            timer = setTimeOut({
+                handle.apply(this,args)
+            },delay)
+        }
+    }
+    function throttle(handle,wait){
+        let lastTime = 0;
+        return function (...args){
+            let nowTime = + new Date();
+            if(nowTime - lastTime > wait){
+                lastTime = nowTime;
+                handle.apply(this,args)
+            }
+        }
+    }
+    
+    ```
 14. 作用域和作用域链、执行期上下文
 15. DOM常见的操作方式
 16. Array.sort()方法与实现机制
