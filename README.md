@@ -9,7 +9,7 @@
 1. ### [从promise开始解决回调地狱](https://github.com/JuneJH/Replay/blob/master/ES6/Promise.md)
 
 ## 网络
-2. ### [从传输层到缓存](https://github.com/JuneJH/Replay/tree/master/network)
+1. ### [从传输层到缓存](https://github.com/JuneJH/Replay/tree/master/network)
 
 ## Vue
 
