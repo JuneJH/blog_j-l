@@ -6,6 +6,10 @@
 1. ### [树相关](https://github.com/JuneJH/Replay/blob/master/killCoding/tree.md)
 
 ## Es6
+1. ### [从promise开始解决回调地狱](https://github.com/JuneJH/Replay/blob/master/ES6/Promise.md)
+
+## 网络
+2. ### [从传输层到缓存](https://github.com/JuneJH/Replay/tree/master/network)
 
 ## Vue
 
@@ -15,7 +19,6 @@
 
 ## Web安全
 
-## 网络
 
 ## 性能优化
 
