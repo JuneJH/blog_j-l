@@ -122,12 +122,63 @@
     
     ```
 14. 作用域和作用域链、执行期上下文
-    - JavaScript采用词法解析，即它的作用域取决于他出生的地方就是代码的书写位置，与在哪儿执行无关。
+    - JavaScript采用词法解析，即它的作用域取决于他出生的地方就是代码的书写位置，与在哪儿执行无关。首先是全局上下文，每一个上下文都包括变量对象，this，作用域链。在全局执行上下文中的变量对象就是全局对象。每一个函数都会有一个`[[scope]]`属性，它指向父级的作用域链，此时的函数的作用域并不完整，这时不包含自身的执行上下文。当一个函数在被执行时就会把执行上下文压入到执行栈中并初始化，首先复制`[[scope]]`,然后通过argument生成一个活动对象，这个活动对象的就是该执行上下文的变量对象，通过预编译生成一个活动对象，并把它压入到作用域链的最顶端。当函数执行完毕后，把该函数的执行上下文从执行栈中弹出，如果此时还有其他函数指向该作用域链就会形成闭包。
 15. DOM常见的操作方式
+    1. 获取节点方式
+        - document.querySelectAll();
+        - document.getElementById();
+        - document.getElementsByTag();
+        - ......
+    2. 节点类型，节点值，节点名
+        - Node.nodeType;
+        - Node.nodeName;
+        - Node.Value;
+    3. 创建，添加，移除
+        - document.createElement();
+        - new DocumentFragment();
+        - dom.appendChild();
+        - dom.remove()/dom.removeChild();
 16. Array.sort()方法与实现机制
+    - 改数组方法用来排序，如果不传入参数将比较字符的Unicode的大小，如果传入参数，将是一个回调函数，方法在调用该方法时会传入数组的两位，根据返回值大于0就会发生变化，小于等于不会发生位置变化。在数组的数量小于10的时候sort内部将采用插入排序，否则采用快速排序。
+    ```javascript
+    // 快速排序
+    function quickSort(arr){
+        _quickSort(arr,0,arr.length)
+        function _quickSort(arr,begin,end){
+            if(begin > end - 1) return;
+            let left = begin;
+            let right = end;
+            do{
+                do left ++;while(left < right && arr[left] < arr[begin]);
+                do right --; while(left < right && arr[right] > arr[begin]);
+                if(left < right) change(arr,right,left);
+            }while(left < right);
+            const middleIndex = left == right ? right - 1 : right;
+            change(arr,begin,middleIndex);
+            _quickSort(arr,begin,middleIndex);
+            _quickSort(arr,middleIndex + 1,end);
+        }
+    }
+    ```
+
 17. Ajax的请求过程
+    - Ajax请求主要是利用XMLHttpRequest()这个对象，通过该实例对象的open进行设置请求地址，请求方法，最后是是否异步请求；然后通过该实例的send()进行发送，如果是post请求就可以把参数作为send()的参数。接下来就是等待服务器返回内容了，通过该实例的onreadystatechange绑定事件，该事件会在状态发生改变时执行，最后返回的值将会出现在responseText中。
+
 18. JS的垃圾回收机制
+    - 在其他语言中，都需要自己手动释放空间，而在JS中它帮我们做了这一步，JS中的垃圾回收主要是采用分代机制，其中主要的空间包括新生代，老生代，以及在垃圾回收中不那么重要的map，大对象区。当声明了一个对象时，他最有可能出现的地方就是新生代中的from空间，在新生代中执行垃圾回收时主要采用**算法，这是一种典型的用空间换时间的算法，因此他还有一个空间叫做to空间，在垃圾回收时，会查看from空间中仍然存活的对象，将他移植到to空间，完成这个操作后，就会把from空间清空，然后把to空间更改为from空间，原来的from空间变成现在的to空间。新生代的空间也非常有限，不能一直存放在新生代，因此就会发生对象晋升，满足这两个条件之一就可以，一该对象已经经历过一个xx算法，二，在from空间向to空间转移的时候to空间的占比已经超过25%了。这样对象就来到了老生代，老生代它的存在就意味他不用多次执行垃圾回收，所以它采用标记清理的算法，通过根对象去遍历对象，能访问到的对象就做一个标记，然后清理掉没有标记的对象，但是这样会出现一个问题就是内存碎片，不能为后续提供一整块的内存空间，因此还需要标记整理，将对象依次向另外一端移动。即使这样，还是存在问题就是，即全停顿。老生代存放了大多数的对象，因此在执行垃圾回收时需要消耗时间，由于js是单线程，那么主程序的逻辑执行就会在进行垃圾回收时停下来，因为此时的执行权在垃圾回收中。因此由采用增量式标记清理，即标记一部分后就把执行权还给主程序，就有点类似时间轮转片的感觉。
 19. JS中的String、Array和Math方法
+    1. String中的方法
+        - substring
+        - slice
+        - substr
+        - replace
+    2. Array中方法
+        - sort
+        - slice
+        - splice
+    3. Math中的方法
+        - random
+        - flood
 20. addEventListener和onClick()的区别
 21. new和Object.create的区别
 22. DOM的location对象
