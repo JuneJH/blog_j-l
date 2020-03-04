@@ -86,7 +86,24 @@ Http请求主要包括
  - webStorage  localStorage与sessionStorage
  - IndexDB
 
- ## CDN 
+ ## 跨域
+
+ 1. 浏览器为了保障安全遵循同源策略，同源策略即指协议，域名，端口三者一致则满足同源，否则会发生跨域的行为。
+
+ ### 解决跨域的形式
+
+ 1. JSONP，通过标签的src属性来进行跨域请求，与后台协商好，让后端处理好返回的内容，是一个执行函数，响应内容作为参数传回来。内容传回后会立即执行，因此返回执行函数的定义需要提前做好，以便接受数据。
+ 
+ 2. CORS，后端设置响应头
+    - Access-Control-Request-Origin: *                  设置可以跨域的请求源```*```表示支持所有
+    **非简单请求将会进行预检请求**
+    - Access-Control-Request-Method: POST               设置可接受跨域的请求方法
+    - Access-Control-Request-Headers: X-PINGOTHER       设置可接受跨域的请求自定义头
+    - Access-Control-Max-Age: 86400                     设置本次预请求的的有效时间，再该时间段不需要再进行预请求
+    **再该跨域下携带cookie**
+    - Access-Control-Allow-Credentials: true            设置该字段后浏览器才会把cookie给你的网页同样再请求时需要为XMLHttpRequest的实例对象设置withCredentials 为true
+
+ 3. 后端代理
 
 
 
