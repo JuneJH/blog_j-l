@@ -95,7 +95,7 @@ Http请求主要包括
  1. JSONP，通过标签的src属性来进行跨域请求，与后台协商好，让后端处理好返回的内容，是一个执行函数，响应内容作为参数传回来。内容传回后会立即执行，因此返回执行函数的定义需要提前做好，以便接受数据。
  
  2. CORS，后端设置响应头
-    - Access-Control-Request-Origin: *                  设置可以跨域的请求源```*```表示支持所有
+    - Access-Control-Allow-Origin: *                  设置可以跨域的请求源```*```表示支持所有
     **非简单请求将会进行预检请求**
     - Access-Control-Request-Method: POST               设置可接受跨域的请求方法
     - Access-Control-Request-Headers: X-PINGOTHER       设置可接受跨域的请求自定义头
