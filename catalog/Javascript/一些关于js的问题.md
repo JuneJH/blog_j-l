@@ -231,6 +231,9 @@
     - 微任务，promise，observe会放入微任务中。任务出栈为一队一队出
 
 29. BOM属性对象方法
+    - location
+    - history
+    - navigator
 
 30. 函数柯里化及其通用封装
     - 函数柯里化是允许参数多次传入。
