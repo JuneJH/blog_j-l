@@ -7,8 +7,12 @@
     * 2. 内排和外排序：所有操作都是在内存内完成就是内排，否则就是外派
     * 3. 时间复杂度和空间复杂度
 
+    **在JavaScript中的sort函数中，v8引擎采用数组小于10使用插入排序，大于10使用快排**
+
 
 ## 冒泡排序
+
+1. 平均时间复杂度O(n2) 最好情况O(n) 最坏O(n2)  稳定
 
 ```javascript
 
@@ -25,6 +29,10 @@ function bubbleSort(arr){
 }
 ```
 
+## 选择排序
+
+1. 平均时间复杂度O(n2) 最好情况O(n2) 最坏O(n2)  不稳定
+
 ```javascript
 
 // 选择排序
@@ -38,6 +46,9 @@ function selectSort(arr){
     }
 }
 ```
+## 快排
+
+1. 平均时间复杂度O(nlogn) 最好情况O(nlogn) 最坏O(n2)  不稳定
 
 ```javascript
 // 快排
@@ -59,6 +70,10 @@ function quickSort(arr){
     }
 }
 ```
+
+## 归并排序
+
+1. 平均时间复杂度O(nlogn) 最好情况O(nlogn) 最坏O(nlogn)  不稳定
 
 ```javascript
 // 归并排序
@@ -88,6 +103,9 @@ function mergeSort(arr){
     }
 }
 ```
+## 插入排序
+
+1. 平均时间复杂度O(n2) 最好情况O(n) 最坏O(n2)  稳定
 
 ```javascript
 // 插入排序
