@@ -1,0 +1,106 @@
+# 经典排序算法
+
+    数组排序的几种方案
+    ![这是算法图片](./sort.png)
+1. 几个相关属性
+    * 1. 稳定性：如果a和b两个数相等，在排序后，a和b的位置没有发生变化就是稳定的，如果发生了变化就是不稳定的
+    * 2. 内排和外排序：所有操作都是在内存内完成就是内排，否则就是外派
+    * 3. 时间复杂度和空间复杂度
+
+
+## 冒泡排序
+
+```javascript
+
+//冒泡排序
+function change (arr,a,b){
+    return [arr[a],arr[b]] = [arr[b],arr[a]]
+}
+function bubbleSort(arr){
+    for(let i = 0; i < arr.length; i ++){
+        for(let j = 0; j < arr.length - i -1; j ++){
+            if(arr[j] > arr[j + 1])change(arr,j,j+1)
+        }
+    }
+}
+```
+
+```javascript
+
+// 选择排序
+function selectSort(arr){
+    for(let i = 0; i < arr.length; i ++){
+        let minIndex = i;
+        for(let j = i; j < arr.length; j ++){
+            if(arr[minIndex] > arr[j])minIndex = j;
+        }
+        change(arr,i,minIndex)
+    }
+}
+```
+
+```javascript
+// 快排
+function quickSort(arr){
+    _quickSort(arr,0,arr.length)
+    function _quickSort(arr,begin,end){
+        if(begin >= end - 1)return;
+        let left = begin;
+        let right = end;
+        do{
+            do left ++; while(arr[left] < arr[begin] && left < right);
+            do right --; while(arr[right] > arr[begin] && left < right);
+            if(left < right)change(arr,left,right);
+        }while(left < right);
+        const middleIndex = left == right ? right - 1 : right;
+        change(arr,middleIndex,begin);
+        _quickSort(arr,begin,middleIndex);
+        _quickSort(arr,middleIndex + 1,end);
+    }
+}
+```
+
+```javascript
+// 归并排序
+function mergeSort(arr){
+    if(arr.length < 2) return arr;
+    const middleIndex = Math.floor(arr.length / 2);
+    const left = arr.slice(0,middleIndex);
+    const right = arr.slice(middleIndex);
+    return merge(mergeSort(left),mergeSort(right))
+    function merge(left,right){
+        const result = [];
+        while(left.length && right.length){
+            if(left[0] > right[0]){
+                result.push(right.shift())
+            }else{
+                result.push(left.shift())
+            }
+        }
+        while(left.length){
+            result.push(left.shift())
+        }
+        while(right.length){
+            result.push(right.shift())
+        }
+        return result;
+
+    }
+}
+```
+
+```javascript
+// 插入排序
+function insertSort(arr){
+    // 插入排序
+    for(let i = 1; i < arr.length; i ++){
+        const value = arr[i];
+        let j = i - 1;
+        while(j >= 0 && arr[j] > value){
+            arr[j + 1] = arr[j];
+            j --;
+        }
+        arr[j + 1] = value;
+    }
+}
+```
