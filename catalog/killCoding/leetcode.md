@@ -1,9 +1,12 @@
+# 记录leetcode
+
+[TOC]
+
+## 子集 leetcode78  回溯
+
 给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
-
 说明：解集不能包含重复的子集。
-
 示例:
-
 输入: nums = [1,2,3]
 输出:
 [
@@ -32,21 +35,16 @@ var subsets = function(nums) {
         str.pop();          // 不选
         fn(str,nums.slice(0,nums.length - 1),result);
     }
-    
     return result;
 }
 
-
 ```
 
-## 最小路径leetcode64
+## 最小路径 leetcode64 动态规划
 
 给定一个包含非负整数的 m x n 网格，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
-
 说明：每次只能向下或者向右移动一步。
-
 示例:
-
 输入:
 [
   [1,3,1],
@@ -75,4 +73,27 @@ var minPathSum = function (grid) {
    return grid[grid.length - 1][grid[0].length -1]
 };
 
+```
+
+## 全排列 leetcode46 回溯法
+
+```javascript
+var permute = function(nums) {
+    const result = [];
+    const len = nums.length;
+    func([],nums)
+    return result;
+    function func(path,nums){
+        if(path.length == len){ // 满足一种的结果，保存下来
+            result.push(path.slice());
+            return
+        }
+        for(let i = 0; i < len; i ++){
+            if(path.includes(nums[i]))continue;//筛选以选入的
+            path.push(nums[i]); // 选择当前状态
+            func(path,nums)
+            path.pop()          // 退回没有选的状态
+        }
+    }
+};
 ```
