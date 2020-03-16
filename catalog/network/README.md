@@ -105,6 +105,18 @@ Http请求主要包括
 
  3. 后端代理
 
+ ## cookie的属性
+
+1. name:    一个属性的名字
+2. value:   一个属性的值
+3. domain:  该cookie所属的域名
+4. path:    该cookie的路径
+5. expires/Max-age: 不设置为页面cookie，即当浏览器关闭后销毁。前者表示一个时间戳，后前表示一个时间断
+6. size:    cookie大小
+7. httponly:    通过页面js脚本不能获得cookie，所以可以用来防止XSS
+8. secrue:  规定只能在https协议下使用cookie
+9. samesite:    该属性的值有strict和lax，严格模式下一旦跨站点访问都不携带cookie，lax就放松一些，在get请求表单可以携带和预加载，以及链接
+
 
 
 
