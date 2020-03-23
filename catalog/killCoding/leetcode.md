@@ -155,73 +155,7 @@ var minPathSum = function (grid) {
 
 ```
 
-## 分糖果 leetcode 135  类似贪心，按照顺序满足一个方向，再反向检查，选取最大的值
-
-`老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。
-
-你需要按照以下要求，帮助老师给这些孩子分发糖果：
-
-每个孩子至少分配到 1 个糖果。
-相邻的孩子中，评分高的孩子必须获得更多的糖果。
-那么这样下来，老师至少需要准备多少颗糖果呢？
-
-示例 1:
-
-输入: [1,0,2]
-输出: 5
-解释: 你可以分别给这三个孩子分发 2、1、2 颗糖果。
-示例 2:
-
-输入: [1,2,2]
-输出: 4
-解释: 你可以分别给这三个孩子分发 1、2、1 颗糖果。
-     第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
-`
-
-```javascript
-   
-        var candy = function(ratings) {
-            // 记录左->右分发糖果数
-            const left = new Array(ratings.length);
-            // 记录右->左分发糖果数
-            const right = new Array(ratings.length);
-            // 左->右的第一个人，右->左最后一个人，此时赋值只满足左->右
-            left[0] = 1;
-            // 同上
-            right[ratings.length - 1] = 1;
-            // 开始分发，按照规则
-            for(let i = 1; i < ratings.length; i ++){
-                // 如果比前面一个人小，就直接分发一颗
-                left[i] = 1;
-                // 如果比前面大，就比前面大一个，先满足左->右的分糖规则，后续向左在进行检查，因为都是类似贪心，都是选取最小符合的
-                if(ratings[i] > ratings[i - 1]){
-                    left[i] = left[i-1] + 1;
-                }
-            }
-            // 同左->右
-            for(let i = ratings.length - 2; i >= 0; i --){
-                right[i] = 1;
-                if(ratings[i] > ratings[i + 1]){
-                    right[i] = right[i + 1] + 1;
-                }
-            }
-            // 统计一共需要多少个
-            let count = 0;
-            for(let i = 0; i < left.length; i ++){
-                // 取左->右 右->左，最大的那个，小的那个必然会不满足一个方向的分糖规则
-                if(left[i] > right[i]){
-                    count += left[i];
-                }else{
-                    count += right[i];
-                }
-            }
-            return count;
-        };
-
-        // 时间复杂度 O(n)
-```
-
-## 最长公共子序列   leetcode 1143
+## 最长公共子序列   leetcode 1143 动态规划
 
 `
 给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列。
@@ -297,9 +231,75 @@ var longestCommonSubsequence = function (text1, text2) {
     return dp[t1Len][t2Len]
 };
 
-
-
 ```
+
+
+## 分糖果 leetcode 135  类似贪心，按照顺序满足一个方向，再反向检查，选取最大的值
+
+`老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。
+
+你需要按照以下要求，帮助老师给这些孩子分发糖果：
+
+每个孩子至少分配到 1 个糖果。
+相邻的孩子中，评分高的孩子必须获得更多的糖果。
+那么这样下来，老师至少需要准备多少颗糖果呢？
+
+示例 1:
+
+输入: [1,0,2]
+输出: 5
+解释: 你可以分别给这三个孩子分发 2、1、2 颗糖果。
+示例 2:
+
+输入: [1,2,2]
+输出: 4
+解释: 你可以分别给这三个孩子分发 1、2、1 颗糖果。
+     第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
+`
+
+```javascript
+   
+        var candy = function(ratings) {
+            // 记录左->右分发糖果数
+            const left = new Array(ratings.length);
+            // 记录右->左分发糖果数
+            const right = new Array(ratings.length);
+            // 左->右的第一个人，右->左最后一个人，此时赋值只满足左->右
+            left[0] = 1;
+            // 同上
+            right[ratings.length - 1] = 1;
+            // 开始分发，按照规则
+            for(let i = 1; i < ratings.length; i ++){
+                // 如果比前面一个人小，就直接分发一颗
+                left[i] = 1;
+                // 如果比前面大，就比前面大一个，先满足左->右的分糖规则，后续向左在进行检查，因为都是类似贪心，都是选取最小符合的
+                if(ratings[i] > ratings[i - 1]){
+                    left[i] = left[i-1] + 1;
+                }
+            }
+            // 同左->右
+            for(let i = ratings.length - 2; i >= 0; i --){
+                right[i] = 1;
+                if(ratings[i] > ratings[i + 1]){
+                    right[i] = right[i + 1] + 1;
+                }
+            }
+            // 统计一共需要多少个
+            let count = 0;
+            for(let i = 0; i < left.length; i ++){
+                // 取左->右 右->左，最大的那个，小的那个必然会不满足一个方向的分糖规则
+                if(left[i] > right[i]){
+                    count += left[i];
+                }else{
+                    count += right[i];
+                }
+            }
+            return count;
+        };
+
+        // 时间复杂度 O(n)
+```
+
 
 
 
