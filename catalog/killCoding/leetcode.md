@@ -251,7 +251,7 @@ var minPathSum = function (grid) {
 `
 
 ```javascript
-// 思路，超时，使用动态规划进行优化
+// 思路，超时，暴力求解
 var longestCommonSubsequence = function(text1, text2) {
     return func(text1,text2).length
     function func(text1,text2){
@@ -270,41 +270,34 @@ var longestCommonSubsequence = function(text1, text2) {
     }
 };
 
-// 优化
+// 动态规划
 
-var longestCommonSubsequence = function(text1, text2) {
-    const cache = [];
-    let obj ={
-        s1:"",
-        s2:'',
-        result:''
+var longestCommonSubsequence = function (text1, text2) {
+    let t1Len = text1.length;
+    let t2Len = text2.length;
+    // 初始化dp table，第一行和第一列为空字符串，即没有公共子序列，赋值为0
+    const dp = new Array(t1Len + 1);
+    for (let i = 0; i < dp.length; i++) {
+        dp[i] = new Array(t2Len + 1)
+        dp[i][0] = 0;
     }
-    return func(text1,text2).length
-    function func(text1,text2){
-        for(let i = 0; i < cache.length; i ++){
-            if(cache[i].s1 == text1 && cache[i].s2 == text2){
-                return cache[i].result;
-            } 
-        }
-        obj.s1 = text1;
-        obj.s2 = text2;
-        if(!text1 || !text2) obj.result = "";
+    dp[0].fill(0)
+    // 填充dp
+     for(let i = 1; i <= t1Len; i ++){
+         for(let j = 1; j <= t2Len; j ++){
+             // 因为第一列第一行是空字符，而且作为基础值，对比字符串从第零位开始
+             if(text1[i - 1] == text2[j - 1]){// 找到第一个公共子序列
+                 dp[i][j] = 1 + dp[i - 1][j - 1]
+             }else{
+                 dp[i][j] = Math.max(dp[i - 1][j],dp[i][j - 1])// 没有找到第一个
+             }
+         }
+     }
 
-        else if(text1[0] == text2[0]){
-            obj.result = text1[0] + func(text1.substr(1),text2.substr(1));
-        }else{
-            let str1 = func(text1,text2.substr(1));
-            let str2 = func(text1.substr(1),text2);
-            if(str1.length > str2.length){
-                obj.result = str1;
-            }else{
-                obj.result = str2;
-            }
-        }
-        cache.push(obj);
-        return obj.result;
-    }
+    return dp[t1Len][t2Len]
 };
+
+
 
 ```
 
