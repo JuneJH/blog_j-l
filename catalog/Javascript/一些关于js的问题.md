@@ -274,8 +274,27 @@ function curry(handle,...params){
 34. 严格模式和宽松模式
     - 严格模式使用`"use strict"`启用
 
-35. 内存管理
+35. 内存管理和其他语言的内存管理比较
     * 当定义一个变量的时候的声明周期为
         - 内存分配  分配内存
         - 使用内存  读写
         - 内存回收
+
+36. 如何懒加载一个图片
+    - scrollHeight + offsetHeight
+
+37. children 和childNodes 的区别
+    - children返回与页面展示一致的HTML节点      **子元素**
+    - childrenNodes返回所有的节点，包括文本节点     **子节点**
+
+38. vue.js比jquery好在哪里？
+    - jq更像一个api库，封装了原生api，最终操作的是dom
+    - vue是一个基于MVVM的框架，数据驱动，双向数据绑定，实现单页面应用，模块化，组件复用等等.
+    - vue中也可以用jq
+
+39. null和undefined的区别
+    -  `null表示没有对象，此处不应该有值，undefined表示该处缺少值，声明了变量还没有赋值`
+    - null表示无对象，转换为数值为0，undefined表示一个无初始值，转换为数值为NaN
+    - 两者再`==`是相等的
+
+40. JavaScript和Java的区别,为什么不选择JavaScript替代Java
