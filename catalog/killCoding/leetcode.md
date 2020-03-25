@@ -232,6 +232,36 @@ var longestCommonSubsequence = function (text1, text2) {
 };
 
 ```
+## 零钱兑换 leetcode 322 动态规划
+
+给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+
+示例 1:
+
+输入: coins = [1, 2, 5], amount = 11
+输出: 3 
+解释: 11 = 5 + 5 + 1
+示例 2:
+
+输入: coins = [2], amount = 3
+输出: -1
+
+```javascript
+
+var coinChange = function(coins, amount) {
+    const dp = new Array(amount + 1).fill(amount + 1); // 定义dp，用来保存需要零钱数，并且每个填充为最大值
+    dp[0] = 0;//base case。当需要的零钱是0是他需要0张
+    for(let i = 1; i < dp.length; i ++){
+        for(let j = 0; j < coins.length; j ++){
+            if(i - coins[j] < 0) continue;// 超出当前需要零钱的面额
+            dp[i] = Math.min(dp[i],1 + dp[i - coins[j]]);//状态转移，+1代表选取当前的面额一张
+        }
+    }
+    return dp[amount] == amount + 1 ? - 1 : dp[amount]
+};
+
+
+```
 
 
 ## 分糖果 leetcode 135  类似贪心，按照顺序满足一个方向，再反向检查，选取最大的值
@@ -299,6 +329,9 @@ var longestCommonSubsequence = function (text1, text2) {
 
         // 时间复杂度 O(n)
 ```
+
+
+
 
 
 
