@@ -1,4 +1,5 @@
-# Replay
+# blog
+
 ## JavaScript
 1. ### [一些关于js的问题](https://github.com/JuneJH/Replay/blob/master/catalog/Javascript/%E4%B8%80%E4%BA%9B%E5%85%B3%E4%BA%8Ejs%E7%9A%84%E9%97%AE%E9%A2%98.md)
 
